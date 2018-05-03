@@ -1,4 +1,4 @@
-package pl.artur.module.kafka;
+package pl.artur.module.kafka.impl;
 
 import java.util.Random;
 

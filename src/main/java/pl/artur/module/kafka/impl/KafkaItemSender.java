@@ -1,17 +1,24 @@
-package pl.artur.module.kafka;
+package pl.artur.module.kafka.impl;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import pl.artur.module.db.entity.*;
+import pl.artur.module.kafka.Conf;
+import pl.artur.module.kafka.KafkaSender;
+import pl.artur.module.utils.GsonFactory;
 
 @Component
 public class KafkaItemSender implements KafkaSender<Item> {
+	
+	//TODO MAKE LOGGER WORKS :D
+	final static Logger logger = Logger.getLogger(KafkaItemSender.class);
 	
 	@Autowired
 	private Gson gson;
@@ -19,14 +26,12 @@ public class KafkaItemSender implements KafkaSender<Item> {
 	@Override
 	public void sendItem(ProducerConfig producerConfig, Item object) {
 		// TODO Auto-generated method stub
+		System.out.println("Starting sending item...");
 		  Producer<String, String> producer = new Producer<String, String>(producerConfig);
 		  String msg = gson.toJson(object);
-		  KeyedMessage<String, String> data = new KeyedMessage<String, String>(Conf.inputTopic, "item", msg);
+		  System.out.println("Item parsed to JSON: " + msg);
+		  KeyedMessage<String, String> data = new KeyedMessage<String, String>(Conf.topic, "item", msg);
 		  producer.send(data);
-		
+		  System.out.println("Item sent");
 	}
-
-
-	//TODO:  Przerobić run-kafka.bat tak by posiadał te tematy które chcemy i żeby miał odpowiednią ilość brokerów itp
-	niedokonczony kod zeby wyswietlilo tu blad i zebym zwrocil na to uwage 
 }

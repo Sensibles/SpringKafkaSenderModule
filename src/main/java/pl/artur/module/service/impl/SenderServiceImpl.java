@@ -9,10 +9,12 @@ import kafka.producer.ProducerConfig;
 import kafka.serializer.StringEncoder;
 import pl.artur.module.db.entity.Item;
 import pl.artur.module.service.SenderService;
+import pl.artur.module.service.SenderServiceAbstract;
 import pl.artur.module.kafka.*;
+import pl.artur.module.kafka.impl.VerbosePartitioner;
 
 @Component
-public class SenderServiceImpl implements SenderService{
+public class SenderServiceImpl extends SenderServiceAbstract{
 	
 	@Autowired
 	KafkaSender kafkaSender;
@@ -27,7 +29,7 @@ public class SenderServiceImpl implements SenderService{
 	}
 
 	@Override
-	public void sendItem(Item item) {
+	public void run(Item item) {
 		kafkaSender.sendItem(producerConfig(), item);
 		// TODO Auto-generated method stub
 		

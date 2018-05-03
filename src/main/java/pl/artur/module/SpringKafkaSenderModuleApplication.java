@@ -1,11 +1,16 @@
 package pl.artur.module;
 
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
+import pl.artur.module.utils.*;
 
 @SpringBootApplication
 public class SpringKafkaSenderModuleApplication {
@@ -14,9 +19,10 @@ public class SpringKafkaSenderModuleApplication {
 		SpringApplication.run(SpringKafkaSenderModuleApplication.class, args);
 	}
 	
-	
 	@Bean
 	public Gson getGson() {
-		return new GsonBuilder().setPrettyPrinting().create();
+		return new Gson();
 	}
+	
+	
 }
